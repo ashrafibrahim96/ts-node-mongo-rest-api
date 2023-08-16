@@ -7,6 +7,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import router from './router';
 
+require('dotenv').config();
 
 
 const app = express();
@@ -21,14 +22,13 @@ app.use(bodyParser.json());
 
 const server = http.createServer(app);
 
-server.listen(8080, () => {
-    console.log('Server running on Port 8080');
+server.listen(process.env.PORT, () => {
+    console.log(`Server running on Port ${process.env.PORT}`);
     
 })
-
-const MONGOO_URL = 'mongodb+srv://test123:test123@cluster0.157hrki.mongodb.net/?retryWrites=true&w=majority';
+ 
 mongoose.Promise = Promise;
-mongoose.connect(MONGOO_URL);
+mongoose.connect(process.env.MONGO_URI);
 mongoose.connection.on('error', (error, Error) => console.log(error));
 
 app.use('/', router());
